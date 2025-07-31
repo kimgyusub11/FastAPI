@@ -10,6 +10,11 @@ from ..database import SessionLocal
 from .auth import get_current_user
 from starlette.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
+import logging
+import logging.handlers
+
+logger = logging.getLogger('ec2-app')
+logger.setLevel(logging.INFO)
 
 templates = Jinja2Templates(directory="TodoApp/templates")
 
@@ -44,7 +49,8 @@ def redirect_to_login():
 @router.get("/todo-page")
 async def render_todo_pages(request: Request, db: db_dependency):
     try:
-        print(request)
+        logger.info('render_todo_pages')
+        logger.info(request)
         user = await get_current_user(request.cookies.get("access_token"))
         if user is None:
             return redirect_to_login()
