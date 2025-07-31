@@ -44,6 +44,7 @@ def redirect_to_login():
 @router.get("/todo-page")
 async def render_todo_pages(request: Request, db: db_dependency):
     try:
+        print(request)
         user = await get_current_user(request.cookies.get("access_token"))
         if user is None:
             return redirect_to_login()
